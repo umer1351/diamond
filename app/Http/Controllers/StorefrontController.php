@@ -355,6 +355,31 @@ class StorefrontController extends Controller
         return $url;
     }
 
+    /**
+     * Resolve a stored image path (public disk or public/ folder) to a URL,
+     * or null when it is missing. Used for the "Shop by Category" background.
+     */
+    private function resolvePublicImage(?string $path): ?string
+    {
+        $path = trim((string) $path);
+
+        if ($path === '') {
+            return null;
+        }
+
+        if (Storage::disk('public')->exists($path)) {
+            return Storage::url($path);
+        }
+
+        $normalized = ltrim(str_replace('\\', '/', $path), '/');
+
+        if (is_file(public_path($normalized))) {
+            return asset($normalized);
+        }
+
+        return null;
+    }
+
     private function categoryImageUrl(Product $category, int $seed): string
     {
         $path = trim((string) $category->image_path);
@@ -454,6 +479,7 @@ class StorefrontController extends Controller
             'products' => $products,
             'categories' => $categories,
             'homeCategories' => $homeCategories,
+            'categoryBg' => $this->resolvePublicImage($cmsSetting->category_bg_path ?? null),
             'searchTerm' => $term,
             'newArrivals' => $newArrivals,
             'bestSellers' => $bestSellers,
@@ -486,12 +512,15 @@ class StorefrontController extends Controller
         $products = $productsQuery->latest()->paginate(12)->withQueryString();
         $products->setCollection($this->enrichCollection($products->getCollection()));
 
+        $cmsSetting = $this->cmsSetting();
+
         return view('storefront.categories', [
             'categories' => $categories,
             'selectedCategory' => $selectedCategory,
             'products' => $products,
             'cartCount' => (int) collect($this->getCartMap())->sum(),
-            'cmsSetting' => $this->cmsSetting(),
+            'cmsSetting' => $cmsSetting,
+            'categoryBg' => $this->resolvePublicImage($cmsSetting->category_bg_path ?? null),
         ]);
     }
 

@@ -28,7 +28,7 @@
         </section>
     </section>
 
-    <div class="toolbar" id="catalog">
+    <div class="toolbar @if(!empty($categoryBg)) has-bg @endif" id="catalog" @if(!empty($categoryBg)) style="background-image:url('{{ $categoryBg }}')" @endif>
         <div>
             <span class="eyebrow">{{ $useArabicCopy ? __('app.storefront_catalog') : (optional($cmsSections->get('catalog_banner'))->subtitle ?? __('app.storefront_catalog')) }}</span>
             <h2 class="section-title">{{ $useArabicCopy ? __('app.shop_by_category') : (optional($cmsSections->get('catalog_banner'))->title ?? __('app.shop_by_category')) }}</h2>
@@ -46,29 +46,6 @@
             <button class="gold-btn" type="submit">{{ __('app.filter') }}</button>
         </form>
     </div>
-
-    <section class="hero moved-collection">
-        <div class="hero-banner">
-            <img src="{{ optional($cmsImages->get('hero_banner'))['image_url'] ?? ($newArrivals->first()->image_url ?? asset('assets/images/photo-wide-4.jpg')) }}" alt="{{ $useArabicCopy ? __('app.new_collection') : (optional($cmsSections->get('hero_banner'))->title ?? __('app.new_collection')) }}">
-            <div class="hero-copy">
-                <span class="eyebrow">{{ $useArabicCopy ? __('app.fresh_luxury') : (optional($cmsSections->get('hero_banner'))->subtitle ?? __('app.fresh_luxury')) }}</span>
-                <h1 class="display-title">{{ $useArabicCopy ? __('app.new_collection') : (optional($cmsSections->get('hero_banner'))->title ?? __('app.new_collection')) }}</h1>
-                <p>{{ $useArabicCopy ? __('app.hero_default_body') : (optional($cmsSections->get('hero_banner'))->body ?? __('app.hero_default_body')) }}</p>
-                <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-                    <a class="gold-btn" href="{{ optional($cmsSections->get('hero_banner'))->button_url ?? '#catalog' }}">{{ optional($cmsSections->get('hero_banner'))->button_text ?? __('app.shop_now') }}</a>
-                    <a class="ghost-btn" href="{{ route('storefront.cart') }}">{{ __('app.open_cart') }}</a>
-                </div>
-            </div>
-        </div>
-        <div class="hero-side">
-            <img src="{{ optional($cmsImages->get('promo_banner'))['image_url'] ?? ($bestSellers->first()->image_url ?? asset('assets/images/photo-wide-4.jpg')) }}" alt="Best seller">
-            <div class="hero-side-copy">
-                <span class="eyebrow" style="color:#f6dfb6">{{ $useArabicCopy ? __('app.signature_edit') : (optional($cmsSections->get('promo_banner'))->subtitle ?? __('app.signature_edit')) }}</span>
-                <h2>{{ $useArabicCopy ? __('app.promo_default_title') : (optional($cmsSections->get('promo_banner'))->title ?? __('app.promo_default_title')) }}</h2>
-                <p style="margin:0;color:rgba(255,255,255,.86)">{{ $useArabicCopy ? __('app.promo_default_body') : (optional($cmsSections->get('promo_banner'))->body ?? __('app.promo_default_body')) }}</p>
-            </div>
-        </div>
-    </section>
 
     {{-- One section per category: banner + a single row of 4 products + a "More" link. --}}
     @forelse($homeCategories as $category)

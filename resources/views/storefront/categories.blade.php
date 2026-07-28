@@ -14,7 +14,7 @@
                 <h2 class="section-title">Shop by Category</h2>
             </div>
         </div>
-        <div class="category-strip">
+        <div class="category-strip @if(!empty($categoryBg)) has-bg @endif" @if(!empty($categoryBg)) style="background-image:url('{{ $categoryBg }}')" @endif>
             @foreach($categories as $category)
                 <a class="category-card" href="{{ route('storefront.categories', ['category' => $category->id]) }}">
                     <img src="{{ $category->category_image_url }}" alt="{{ $category->name }}">

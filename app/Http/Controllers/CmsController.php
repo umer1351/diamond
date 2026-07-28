@@ -59,9 +59,30 @@ class CmsController extends Controller
             'youtube_url' => ['nullable', 'string', 'max:255'],
             'twitter_url' => ['nullable', 'string', 'max:255'],
             'copyright_text' => ['nullable', 'string', 'max:255'],
+            'category_bg_file' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp,gif', 'max:8192'],
+            'remove_category_bg' => ['nullable'],
         ]);
 
-        CmsSetting::updateOrCreate(['id' => 1], $data + ['is_active' => 1]);
+        $setting = CmsSetting::firstOrNew(['id' => 1]);
+        $categoryBgPath = $setting->category_bg_path;
+
+        if ($request->hasFile('category_bg_file')) {
+            if (! empty($categoryBgPath)) {
+                Storage::disk('public')->delete($categoryBgPath);
+            }
+            $categoryBgPath = $request->file('category_bg_file')->store('cms', 'public');
+        } elseif ($request->boolean('remove_category_bg')) {
+            if (! empty($categoryBgPath)) {
+                Storage::disk('public')->delete($categoryBgPath);
+            }
+            $categoryBgPath = null;
+        }
+
+        unset($data['category_bg_file'], $data['remove_category_bg']);
+
+        $setting->fill($data + ['is_active' => 1]);
+        $setting->category_bg_path = $categoryBgPath;
+        $setting->save();
 
         return redirect()->route('cms.index')->with('success', 'CMS settings saved.');
     }

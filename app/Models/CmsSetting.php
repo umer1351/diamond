@@ -23,6 +23,7 @@ class CmsSetting extends Model
         'twitter_url',
         'tiktok_url',
         'snapchat_url',
+        'category_bg_path',
         'copyright_text',
         'is_active',
     ];

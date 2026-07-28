@@ -56,6 +56,8 @@
         .hero-side-copy{position:absolute;left:28px;right:28px;bottom:28px;z-index:1;color:#fff}
         .hero-side-copy h2,.promo-copy h2{font-family:"Cormorant Garamond",serif;font-size:54px;margin:0 0 8px;line-height:.92}
         .toolbar{margin:22px 0;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+        .toolbar.has-bg{position:relative;padding:34px 26px;border-radius:var(--radius-lg);overflow:hidden;background-size:cover;background-position:center;box-shadow:var(--shadow)}.toolbar.has-bg::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,5,.82),rgba(5,5,5,.5))}.toolbar.has-bg > *{position:relative;z-index:1}
+        .category-strip.has-bg{position:relative;padding:26px;border-radius:var(--radius-lg);background-size:cover;background-position:center}.category-strip.has-bg::before{content:"";position:absolute;inset:0;border-radius:var(--radius-lg);background:rgba(5,5,5,.62)}.category-strip.has-bg > *{position:relative;z-index:1}
         .filter-form{display:flex;gap:12px;flex-wrap:wrap;align-items:center;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:999px;padding:10px;box-shadow:var(--shadow)}
         .filter-input,.filter-select{min-width:170px;border:none;outline:none;background:transparent;padding:10px 12px;color:var(--text)}
         .category-strip,.feature-strip,.product-grid,.mini-grid,.checkout-layout,.detail-layout,.cart-layout{display:grid;gap:18px}
