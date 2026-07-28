@@ -78,14 +78,24 @@ class CmsController extends Controller
             'button_url' => ['nullable', 'string', 'max:255'],
             'image_path' => ['nullable', 'string', 'max:255'],
             'image_file' => ['nullable', 'file', 'mimetypes:image/jpeg,image/png,image/webp,video/mp4,video/webm', 'max:25600'],
+            'media_url' => ['nullable', 'string', 'max:1000'],
             'sort_order' => ['nullable', 'integer'],
         ]);
 
         if ($request->hasFile('image_file')) {
+            // A freshly uploaded file always wins and clears any external URL.
             $file = $request->file('image_file');
             $data['image_path'] = $file->store('cms', 'public');
             $data['media_type'] = str_starts_with((string) $file->getMimeType(), 'video/') ? 'video' : 'image';
             $data['media_url'] = null;
+        } elseif (! empty($data['media_url'])) {
+            // Switching to an external URL (e.g. a YouTube link or a direct MP4):
+            // clear the previously uploaded file so the URL takes effect.
+            $data['image_path'] = null;
+            $data['media_type'] = 'video';
+        } else {
+            // Nothing new provided — don't overwrite the existing media.
+            unset($data['media_url'], $data['image_path']);
         }
 
         $section = !empty($data['id']) ? CmsHomeSection::find($data['id']) : new CmsHomeSection();
