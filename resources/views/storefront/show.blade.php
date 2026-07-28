@@ -11,7 +11,7 @@
         <div class="surface" style="padding:18px">
             <div class="detail-gallery">
                 <div class="thumb-list">
-                    @foreach(array_slice($product->gallery, 0, 2) as $index => $image)
+                    @foreach(array_slice($product->gallery, 0, 3) as $index => $image)
                         <button class="thumb-button @if($index === 0) active @endif" type="button" data-gallery-thumb="{{ $image }}">
                             <img src="{{ $image }}" alt="{{ $product->display_name }}">
                         </button>
