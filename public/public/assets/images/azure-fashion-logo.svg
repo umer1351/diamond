@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-label="Azure Fashion">
+  <defs>
+    <style>
+      .black{fill:#111}
+      .line{fill:none;stroke:#111;stroke-width:6;stroke-linecap:round;stroke-linejoin:round}
+      .serif{font-family:Georgia, 'Times New Roman', serif}
+      .sans{font-family:Arial, Helvetica, sans-serif; letter-spacing:18px}
+    </style>
+  </defs>
+  <rect width="100%" height="100%" fill="#fff"/>
+  <path class="line" d="M405 78c-30 0-54 22-54 52 0 35 29 64 64 64 39 0 72-31 72-69 0-51-43-92-96-92-66 0-120 52-120 116 0 72 58 130 130 130 77 0 139-59 139-132 0-31-12-60-32-82"/>
+  <path class="line" d="M215 228c0-30 24-54 54-54 41 0 78 35 78 78 0 40-28 72-65 72-31 0-58-22-68-51"/>
+  <path class="line" d="M703 228c0-30-24-54-54-54-41 0-78 35-78 78 0 40 28 72 65 72 31 0 58-22 68-51"/>
+  <path class="line" d="M448 252c-25 18-49 34-76 50"/>
+  <path class="line" d="M452 252c25 18 49 34 76 50"/>
+  <text x="450" y="170" text-anchor="middle" class="serif black" font-size="122">A</text>
+  <text x="450" y="345" text-anchor="middle" class="serif black" font-size="140" letter-spacing="20">AZURE</text>
+  <text x="450" y="390" text-anchor="middle" class="sans black" font-size="44">FASHION</text>
+</svg>

@@ -1,0 +1,198 @@
+:root {
+    --brand-bg: #f3f4f6;
+    --brand-surface: #ffffff;
+    --brand-text: #111111;
+    --brand-muted: #6b7280;
+    --brand-border: #d1d5db;
+}
+
+body,
+.main-content-wrap,
+.app-admin-wrap,
+.sidebar-panel,
+.main-header,
+.app-footer,
+.card,
+.dropdown-menu,
+.modal-content {
+    background-color: var(--brand-bg);
+    color: var(--brand-text);
+}
+
+.sidebar-panel {
+    background: linear-gradient(180deg, #e6e6e6 0%, #cfcfcf 100%);
+}
+
+.main-header {
+    background: linear-gradient(90deg, #0f0f0f 0%, #222 100%) !important;
+    color: #f5f5f5;
+}
+
+.rate-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 16px;
+    background: rgba(255,255,255,.04);
+}
+
+.sidebar-brand-logo {
+    width: 270px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.gull-brand {
+    padding: 12px 12px 8px;
+    justify-content: center;
+    text-align: center;
+}
+
+.sidebar-panel .main-menu ul li a,
+.sidebar-panel .main-menu ul li a .item-name,
+.sidebar-panel .main-menu ul li a i {
+    color: #111 !important;
+}
+
+.sidebar-panel .main-menu ul li a {
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.sidebar-panel .main-menu ul li a:hover,
+.sidebar-panel .main-menu ul li.mm-active > a,
+.sidebar-panel .main-menu ul li a.sidebar_active,
+.sidebar-panel .main-menu ul li a.sidebar_active:hover,
+.sidebar-panel .main-menu ul li.active > a,
+.sidebar_active {
+    background: #111 !important;
+    color: #fff !important;
+    border-radius: 14px;
+}
+
+.main-content-wrap {
+    background: linear-gradient(180deg, #f8f8f8 0%, #ececec 100%);
+}
+
+.card,
+.modal-content,
+.dropdown-menu,
+.app-footer {
+    border: 1px solid var(--brand-border);
+    border-radius: 18px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+
+.btn-primary,
+.badge-primary,
+.bg-primary {
+    background-color: #1f1f1f !important;
+    border-color: #1f1f1f !important;
+}
+
+.btn-primary:hover {
+    background-color: #000 !important;
+    border-color: #000 !important;
+}
+
+.sidebar-panel .main-menu ul li a:hover .item-name,
+.sidebar-panel .main-menu ul li a:hover i,
+.sidebar-panel .main-menu ul li.mm-active > a .item-name,
+.sidebar-panel .main-menu ul li.mm-active > a i,
+.sidebar-panel .main-menu ul li a.sidebar_active .item-name,
+.sidebar-panel .main-menu ul li a.sidebar_active i,
+.sidebar-panel .main-menu ul li a.sidebar_active:hover .item-name,
+.sidebar-panel .main-menu ul li a.sidebar_active:hover i,
+.sidebar-panel .main-menu ul li.active > a .item-name,
+.sidebar-panel .main-menu ul li.active > a i,
+.sidebar_active .item-name,
+.sidebar_active i {
+    color: #fff !important;
+}
+
+.sidebar-panel .main-menu ul li:not(.mm-active) a:not(.sidebar_active):hover .item-name,
+.sidebar-panel .main-menu ul li:not(.mm-active) a:not(.sidebar_active):hover i {
+    color: #fff !important;
+}
+
+.header-toggle,
+.header-toggle *,
+.header-part-right,
+.header-part-right * {
+    color: #fff !important;
+}
+
+#header-toggle,
+#header-toggle *,
+.header-toggle {
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+#header-toggle svg,
+#header-toggle i,
+.header-toggle svg,
+.header-toggle i {
+    fill: #fff !important;
+    color: #fff !important;
+}
+
+.main-header .header-icon,
+.main-header .dropdown-toggle,
+.main-header .dropdown-toggle::after {
+    color: #fff !important;
+    border-color: rgba(255,255,255,.35) !important;
+}
+
+.main-header .dropdown-menu a {
+    color: #111 !important;
+}
+
+[dir="rtl"] body {
+    text-align: right;
+}
+
+[dir="rtl"] .app-admin-wrap,
+[dir="rtl"] .main-content-wrap,
+[dir="rtl"] .main-header,
+[dir="rtl"] .sidebar-panel {
+    direction: rtl;
+}
+
+[dir="rtl"] .sidebar-panel .main-menu ul li a {
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .gull-brand {
+    justify-content: center;
+}
+
+[dir="rtl"] .sidebar-panel .main-menu ul li a .nav-icon {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+[dir="rtl"] .header-toggle,
+[dir="rtl"] .header-part-right {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .dropdown-menu-right {
+    right: auto;
+    left: 0;
+}
+
+[dir="rtl"] .mr-1,
+[dir="rtl"] .mr-2,
+[dir="rtl"] .mr-3 {
+    margin-right: 0 !important;
+    margin-left: 0.25rem !important;
+}
+
+[dir="rtl"] .pr-3 {
+    padding-right: 0 !important;
+    padding-left: 1rem !important;
+}
