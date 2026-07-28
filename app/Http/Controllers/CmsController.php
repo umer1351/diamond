@@ -54,6 +54,8 @@ class CmsController extends Controller
             'contact_whatsapp' => ['nullable', 'string', 'max:255'],
             'facebook_url' => ['nullable', 'string', 'max:255'],
             'instagram_url' => ['nullable', 'string', 'max:255'],
+            'tiktok_url' => ['nullable', 'string', 'max:255'],
+            'snapchat_url' => ['nullable', 'string', 'max:255'],
             'youtube_url' => ['nullable', 'string', 'max:255'],
             'twitter_url' => ['nullable', 'string', 'max:255'],
             'copyright_text' => ['nullable', 'string', 'max:255'],

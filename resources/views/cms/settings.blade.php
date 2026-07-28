@@ -14,6 +14,8 @@
             <input class="form-control mb-2" name="contact_whatsapp" value="{{ old('contact_whatsapp', $setting->contact_whatsapp ?? '') }}" placeholder="WhatsApp">
             <input class="form-control mb-2" name="facebook_url" value="{{ old('facebook_url', $setting->facebook_url ?? '') }}" placeholder="Facebook URL">
             <input class="form-control mb-2" name="instagram_url" value="{{ old('instagram_url', $setting->instagram_url ?? '') }}" placeholder="Instagram URL">
+            <input class="form-control mb-2" name="tiktok_url" value="{{ old('tiktok_url', $setting->tiktok_url ?? '') }}" placeholder="TikTok URL">
+            <input class="form-control mb-2" name="snapchat_url" value="{{ old('snapchat_url', $setting->snapchat_url ?? '') }}" placeholder="Snapchat URL">
             <input class="form-control mb-2" name="youtube_url" value="{{ old('youtube_url', $setting->youtube_url ?? '') }}" placeholder="YouTube URL">
             <input class="form-control mb-2" name="twitter_url" value="{{ old('twitter_url', $setting->twitter_url ?? '') }}" placeholder="Twitter URL">
             <input class="form-control mb-2" name="copyright_text" value="{{ old('copyright_text', $setting->copyright_text ?? '') }}" placeholder="Copyright Text">
