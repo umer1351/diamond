@@ -35,15 +35,20 @@
             <div class="detail-price">{{ number_format($product->display_price, 0) }} <span style="font-size:24px">QAR</span></div>
 
             @php($stockQty = (int) ($product->stock_quantity ?? 0))
+            @php($sizeStock = (array) ($product->size_stock ?? []))
+            @php($labelIn = __('app.in_stock') ?? 'In stock')
+            @php($labelOut = __('app.out_of_stock') ?? 'Out of stock')
             <div class="detail-info-line" style="margin-top:14px">
-                @if($stockQty > 0)
-                    <span class="stock-pill in">{{ __('app.in_stock') ?? 'In stock' }}: {{ $stockQty }}</span>
-                @else
-                    <span class="stock-pill out">{{ __('app.out_of_stock') ?? 'Out of stock' }}</span>
-                @endif
+                <span id="stockPill"
+                      class="stock-pill {{ $stockQty > 0 ? 'in' : 'out' }}"
+                      data-label-in="{{ $labelIn }}"
+                      data-label-out="{{ $labelOut }}">
+                    {{ $stockQty > 0 ? $labelIn . ': ' . $stockQty : $labelOut }}
+                </span>
             </div>
 
-            <form method="post" action="{{ route('storefront.cart.add', $product->id) }}" style="display:grid;gap:14px;margin-top:18px">
+            <form method="post" action="{{ route('storefront.cart.add', $product->id) }}" style="display:grid;gap:14px;margin-top:18px"
+                  data-size-stock='@json($sizeStock)' data-total-stock="{{ $stockQty }}">
                 @csrf
 
                 @if($product->sizes_enabled)
@@ -52,7 +57,10 @@
                         @if(count($product->size_options) > 0)
                             <select id="size" name="size" class="note-box" style="min-height:auto" required>
                                 @foreach($product->size_options as $sizeOption)
-                                    <option value="{{ $sizeOption }}">{{ $sizeOption }}</option>
+                                    @php($optQty = $sizeStock[$sizeOption] ?? null)
+                                    <option value="{{ $sizeOption }}" @if(!is_null($optQty) && $optQty <= 0) disabled @endif>
+                                        {{ $sizeOption }}@if(!is_null($optQty)) — {{ $optQty > 0 ? $optQty . ' ' . strtolower($labelIn) : strtolower($labelOut) }}@endif
+                                    </option>
                                 @endforeach
                             </select>
                         @else
@@ -96,6 +104,39 @@
 
 @section('scripts')
     <script>
+        (function () {
+            var form = document.querySelector('form[data-size-stock]');
+            var sizeSelect = document.getElementById('size');
+            var pill = document.getElementById('stockPill');
+            if (!form || !sizeSelect || !pill) { return; }
+
+            var map = {};
+            try { map = JSON.parse(form.getAttribute('data-size-stock') || '{}'); } catch (e) { map = {}; }
+            var labelIn = pill.getAttribute('data-label-in') || 'In stock';
+            var labelOut = pill.getAttribute('data-label-out') || 'Out of stock';
+            var qtyInput = document.getElementById('quantity');
+            var addBtn = form.querySelector('button[type="submit"]');
+
+            function refresh() {
+                var size = sizeSelect.value;
+                if (!(size in map)) { return; }
+                var qty = parseInt(map[size], 10) || 0;
+                pill.classList.toggle('in', qty > 0);
+                pill.classList.toggle('out', qty <= 0);
+                pill.textContent = qty > 0 ? (labelIn + ': ' + qty) : labelOut;
+                if (qtyInput) {
+                    qtyInput.max = qty > 0 ? qty : 1;
+                    if ((parseInt(qtyInput.value, 10) || 1) > qty) { qtyInput.value = qty > 0 ? qty : 1; }
+                }
+                if (addBtn) { addBtn.disabled = qty <= 0; }
+            }
+
+            if (Object.keys(map).length > 0) {
+                sizeSelect.addEventListener('change', refresh);
+                refresh();
+            }
+        })();
+
         document.querySelectorAll('[data-gallery-thumb]').forEach(function (button) {
             button.addEventListener('click', function () {
                 document.getElementById('mainProductImage').src = this.getAttribute('data-gallery-thumb');

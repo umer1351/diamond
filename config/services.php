@@ -38,6 +38,12 @@ return [
         'currency' => env('STRIPE_CURRENCY', 'qar'),
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+
     'qpay' => [
         'merchant_id' => env('QPAY_MERCHANT_ID'),
         'secret' => env('QPAY_SECRET'),

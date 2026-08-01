@@ -93,7 +93,59 @@
         .socials-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.social-tile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:220px;padding:24px;text-align:center;border:1px solid var(--line);border-radius:var(--radius-lg);background:linear-gradient(180deg,var(--panel),var(--panel-2));color:var(--text);transition:.22s ease}.social-tile:hover{border-color:rgba(201,164,106,.5);transform:translateY(-2px)}.social-tile .social-ico{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:linear-gradient(180deg,#2a2218,#17150f);color:var(--gold-soft)}.social-tile strong{font-size:17px}.social-tile span{color:var(--muted);font-size:13px}
         .site-footer{margin-top:38px;padding:28px 0 0;border-top:1px solid var(--line)}.footer-grid{display:grid;grid-template-columns:1.2fr .9fr .9fr;gap:20px}.footer-title{margin:0 0 12px;font-size:20px;font-family:"Cormorant Garamond",serif}.footer-links{display:grid;gap:10px;color:var(--muted)}.inline-icon{font-size:16px;margin-right:8px}
         @media (max-width:1120px){.site-header-inner,.hero,.detail-layout,.cart-layout,.checkout-layout,.footer-grid{grid-template-columns:1fr}.brand-mark{text-align:left}.header-actions{justify-content:flex-end}.hero-copy,.promo-copy{max-width:100%}.category-strip{grid-template-columns:repeat(3,minmax(0,1fr))}.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.related-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.feature-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.socials-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.category-banner .promo-copy{max-width:100%}.detail-gallery{grid-template-columns:1fr}.thumb-list{grid-template-columns:repeat(3,minmax(0,1fr))}.main-visual{min-height:420px}}
+        /* ===== Client feedback (2026-08) overrides ===== */
+        /* Header: inline search + language + cart, badge on cart */
+        .header-actions{gap:10px}
+        .header-search{display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);min-width:190px;max-width:230px}
+        .header-search i{color:var(--gold-soft);font-size:14px}
+        .header-search input{border:none;outline:none;background:transparent;color:var(--text);width:100%;min-width:0}
+        .header-search input::placeholder{color:var(--muted)}
+        .header-search-btn{display:none}
+        .cart-icon-wrap{position:relative}
+        .cart-badge{position:absolute;top:-5px;right:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:linear-gradient(135deg,var(--gold),#e6c892);color:#1b140b;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.45)}
+        /* Floating WhatsApp button on every page */
+        .whatsapp-fab{position:fixed;right:22px;bottom:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 12px 28px rgba(0,0,0,.45);animation:waPulse 2.6s infinite;transition:transform .2s ease}
+        .whatsapp-fab:hover{transform:translateY(-2px);color:#fff}
+        @keyframes waPulse{0%{box-shadow:0 12px 28px rgba(0,0,0,.45),0 0 0 0 rgba(37,211,102,.55)}70%{box-shadow:0 12px 28px rgba(0,0,0,.45),0 0 0 16px rgba(37,211,102,0)}100%{box-shadow:0 12px 28px rgba(0,0,0,.45),0 0 0 0 rgba(37,211,102,0)}}
+        /* Shop by Category grid: 4 per row (Img K) */
+        .category-strip{grid-template-columns:repeat(4,minmax(0,1fr))}
+        /* Hero category thumbnails bigger (Img R) */
+        .home-category-item{width:132px;flex:0 0 132px}
+        .home-category-thumb{width:112px;height:112px}
+        .home-category-name{font-size:14px}
+        /* Product thumbnails: show the WHOLE item, no side-cropping (Img J/M/N/O/P) */
+        .product-thumb{background:radial-gradient(circle at 50% 32%, #16191f 0%, #0a0c0f 78%)}
+        .product-thumb img{object-fit:contain;padding:12px}
+        /* Size dropdown: dark theme so options are readable (Img E) */
+        select.note-box,.filter-select,select{color:var(--text)}
+        select option,.note-box option,.filter-select option{background:#15181d;color:#f4efe6}
+        /* Socials: bigger tabs + embedded reel per platform (Img G) */
+        .socials-grid{gap:22px}
+        .social-tile{min-height:300px;padding:22px 20px;gap:14px}
+        .social-tile .social-ico{width:76px;height:76px;font-size:32px}
+        .social-tile strong{font-size:20px}
+        .social-media{width:100%;aspect-ratio:1/1;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#050505;margin-top:6px}
+        .social-media iframe,.social-media video{width:100%;height:100%;border:0;object-fit:cover;display:block}
+        /* Category section banner: plain black, no bg image, larger title (Img Q) */
+        .category-banner.plain{background:linear-gradient(180deg,#111418,#070809)}
+        .category-banner.plain::after{display:none}
+        .category-banner.plain img{display:none}
+        .category-banner.plain h2{font-size:56px}
+        .category-banner.plain .promo-copy{max-width:100%}
         @media (max-width:760px){.page-shell{padding:14px 14px 44px}.site-header{margin-bottom:14px;border-radius:18px}.site-header-inner{grid-template-columns:auto 1fr auto;gap:10px;padding:12px}.brand-mark strong{font-size:30px}.menu-toggle-btn,.cart-icon{width:40px;height:40px}.video-stage{min-height:430px}.home-category-strip{gap:12px;padding-left:14px;padding-right:14px;justify-content:flex-start}.home-category-item{width:86px;flex-basis:86px}.home-category-thumb{width:70px;height:70px}.display-title{font-size:52px}.section-title{font-size:34px}.hero-copy,.promo-copy,.detail-panel,.cart-card,.summary-card,.checkout-card{padding:22px}.toolbar,.filter-form,.product-actions form,.qty-form,.social-row{align-items:stretch}.filter-form{border-radius:28px}.filter-input,.filter-select{min-width:100%}.category-strip,.product-grid,.feature-strip,.checkout-fields,.socials-grid{grid-template-columns:1fr}.category-banner h2{font-size:36px}.cart-item{grid-template-columns:1fr}.spec-row{grid-template-columns:1fr}.detail-panel h1{font-size:44px}.detail-price{font-size:42px}}
+        @media (max-width:900px){.header-search{min-width:150px;max-width:170px}}
+        @media (max-width:760px){
+            .header-search{display:none}
+            .header-search-btn{display:inline-flex}
+            .lang-pill{display:none}
+            .product-grid,.related-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+            .category-strip{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+            .home-category-item{width:100px;flex-basis:100px}
+            .home-category-thumb{width:88px;height:88px}
+            .socials-grid{grid-template-columns:repeat(1,minmax(0,1fr))}
+            .whatsapp-fab{width:54px;height:54px;font-size:27px;right:16px;bottom:16px}
+            .category-banner.plain h2{font-size:38px}
+        }
     </style>
 </head>
 <body>
@@ -110,8 +162,21 @@
                     <strong>{{ $cmsSetting->logo_text ?? 'AZURE' }}</strong>
                 </a>
                 <div class="header-actions">
-                    <a class="icon-pill cart-icon" href="{{ route('storefront.cart') }}" aria-label="{{ __('app.cart') ?? 'Cart' }}">
+                    <form class="header-search" method="get" action="{{ route('storefront.search') }}" role="search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ __('app.search') ?? 'Search' }}" aria-label="{{ __('app.search') ?? 'Search' }}">
+                    </form>
+                    <a class="icon-pill cart-icon header-search-btn" href="{{ route('storefront.search', ['q' => request('q')]) }}" aria-label="{{ __('app.search') ?? 'Search' }}">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </a>
+                    <a class="icon-pill cart-icon lang-pill" href="{{ route('language.switch', app()->getLocale() === 'en' ? 'ar' : 'en') }}" aria-label="{{ app()->getLocale() === 'en' ? __('app.arabic') : __('app.english') }}" title="{{ app()->getLocale() === 'en' ? __('app.arabic') : __('app.english') }}">
+                        <i class="fa fa-language" aria-hidden="true"></i>
+                    </a>
+                    <a class="icon-pill cart-icon cart-icon-wrap" href="{{ route('storefront.cart') }}" aria-label="{{ __('app.cart') ?? 'Cart' }}">
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        @if((int) ($cartCount ?? 0) > 0)
+                            <span class="cart-badge">{{ (int) $cartCount }}</span>
+                        @endif
                     </a>
                 </div>
             </div>
@@ -130,9 +195,9 @@
                 </div>
 
                 <div class="drawer-links">
-                    <a class="drawer-link" href="{{ route('storefront.search', ['q' => request('q')]) }}">
-                        <i class="fa fa-search" aria-hidden="true"></i>
-                        <span>{{ __('app.search') ?? 'Search' }}</span>
+                    <a class="drawer-link" href="{{ route('storefront.index') }}">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <span>{{ __('app.home') ?? 'Home' }}</span>
                     </a>
                     <a class="drawer-link" href="{{ route('storefront.categories') }}">
                         <i class="fa fa-th-large" aria-hidden="true"></i>
@@ -174,13 +239,8 @@
                     <div class="footer-links">
                         @php($footerEmail = $cmsSetting->footer_email ?? 'info@azure-fashion.com')
                         @php($footerPhone = $cmsSetting->footer_phone ?? '+974 72 23 23 24')
-                        @php($footerWhatsapp = $cmsSetting->contact_whatsapp ?? $footerPhone)
-                        @php($footerWhatsappDigits = preg_replace('/[^0-9]/', '', (string) $footerWhatsapp))
                         <div><a href="mailto:{{ $footerEmail }}"><i class="fa fa-envelope-o inline-icon" aria-hidden="true"></i>{{ $footerEmail }}</a></div>
                         <div><a href="tel:{{ preg_replace('/[^0-9+]/', '', (string) $footerPhone) }}"><i class="fa fa-phone inline-icon" aria-hidden="true"></i>{{ $footerPhone }}</a></div>
-                        @if($footerWhatsappDigits !== '')
-                            <div><a href="https://wa.me/{{ $footerWhatsappDigits }}" target="_blank" rel="noopener"><i class="fa fa-whatsapp inline-icon" aria-hidden="true"></i>WhatsApp</a></div>
-                        @endif
                         <div>{{ $cmsSetting->footer_address ?? 'Qatar' }}</div>
                     </div>
                 </div>
@@ -206,6 +266,15 @@
             </div>
         </footer>
     </div>
+
+    @php($waPhone = $cmsSetting->footer_phone ?? '+974 72 23 23 24')
+    @php($waDigits = preg_replace('/[^0-9]/', '', (string) $waPhone))
+    @if($waDigits !== '')
+        <a class="whatsapp-fab" href="https://wa.me/{{ $waDigits }}" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+        </a>
+    @endif
+
     <script>
         (function () {
             const openBtn = document.getElementById('storefront-menu-open');

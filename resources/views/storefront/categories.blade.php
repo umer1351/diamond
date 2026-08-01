@@ -4,25 +4,35 @@
     <div class="breadcrumb" style="margin-bottom:18px">
         <a class="muted" href="{{ route('storefront.index') }}">Home</a>
         <span class="muted">›</span>
-        <span>Categories</span>
+        @if($selectedCategory)
+            <a class="muted" href="{{ route('storefront.categories') }}">Categories</a>
+            <span class="muted">›</span>
+            <span>{{ $selectedCategory->name }}</span>
+        @else
+            <span>Categories</span>
+        @endif
     </div>
 
-    <section class="section-block">
-        <div class="section-head">
-            <div>
-                <span class="eyebrow">Categories</span>
-                <h2 class="section-title">Shop by Category</h2>
+    {{-- Full category grid only on the Categories landing. When a single
+         category is opened we show ONLY that category's products (Img 9.1). --}}
+    @unless($selectedCategory)
+        <section class="section-block">
+            <div class="section-head">
+                <div>
+                    <span class="eyebrow">Categories</span>
+                    <h2 class="section-title">Shop by Category</h2>
+                </div>
             </div>
-        </div>
-        <div class="category-strip @if(!empty($categoryBg)) has-bg @endif" @if(!empty($categoryBg)) style="background-image:url('{{ $categoryBg }}')" @endif>
-            @foreach($categories as $category)
-                <a class="category-card" href="{{ route('storefront.categories', ['category' => $category->id]) }}">
-                    <img src="{{ $category->category_image_url }}" alt="{{ $category->name }}">
-                    <span>{{ $category->name }} @if($category->finish_products_count) ({{ $category->finish_products_count }}) @endif</span>
-                </a>
-            @endforeach
-        </div>
-    </section>
+            <div class="category-strip">
+                @foreach($categories as $category)
+                    <a class="category-card" href="{{ route('storefront.categories', ['category' => $category->id]) }}">
+                        <img src="{{ $category->category_image_url }}" alt="{{ $category->name }}">
+                        <span>{{ $category->name }} @if($category->finish_products_count) ({{ $category->finish_products_count }}) @endif</span>
+                    </a>
+                @endforeach
+            </div>
+        </section>
+    @endunless
 
     <section class="section-block">
         <div class="section-head">

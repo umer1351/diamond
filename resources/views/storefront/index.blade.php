@@ -50,10 +50,8 @@
     {{-- One section per category: banner + a single row of 4 products + a "More" link. --}}
     @forelse($homeCategories as $category)
         <section class="section-block category-section">
-            <div class="promo-banner category-banner">
-                <img src="{{ $category->category_image_url }}" alt="{{ $category->name }}">
+            <div class="promo-banner category-banner plain">
                 <div class="promo-copy">
-                    <span class="eyebrow">{{ __('app.shop_by_category') }}</span>
                     <h2>{{ $category->name }}</h2>
                     <a class="gold-btn" href="{{ route('storefront.categories', ['category' => $category->id]) }}" style="width:max-content">{{ __('app.view_all') ?? 'View All' }}</a>
                 </div>
@@ -84,26 +82,25 @@
             </div>
         </div>
         <div class="socials-grid">
-            <a class="social-tile" href="{{ $cmsSetting->instagram_url ?: '#' }}" @if($cmsSetting->instagram_url) target="_blank" rel="noopener" @endif>
-                <span class="social-ico"><i class="fa fa-instagram" aria-hidden="true"></i></span>
-                <strong>Instagram</strong>
-                <span>Reels, posts & stories</span>
-            </a>
-            <a class="social-tile" href="{{ $cmsSetting->facebook_url ?: '#' }}" @if($cmsSetting->facebook_url) target="_blank" rel="noopener" @endif>
-                <span class="social-ico"><i class="fa fa-facebook" aria-hidden="true"></i></span>
-                <strong>Facebook</strong>
-                <span>Latest updates</span>
-            </a>
-            <a class="social-tile" href="{{ ($cmsSetting->tiktok_url ?? null) ?: '#' }}" @if($cmsSetting->tiktok_url ?? null) target="_blank" rel="noopener" @endif>
-                <span class="social-ico"><i class="fa fa-play" aria-hidden="true"></i></span>
-                <strong>TikTok</strong>
-                <span>Watch our videos</span>
-            </a>
-            <a class="social-tile" href="{{ ($cmsSetting->snapchat_url ?? null) ?: '#' }}" @if($cmsSetting->snapchat_url ?? null) target="_blank" rel="noopener" @endif>
-                <span class="social-ico"><i class="fa fa-snapchat-ghost" aria-hidden="true"></i></span>
-                <strong>Snapchat</strong>
-                <span>Behind the scenes</span>
-            </a>
+            @foreach($socialTiles as $tile)
+                @php($href = (!empty($tile['url']) && trim($tile['url']) !== '#') ? $tile['url'] : null)
+                @php($reel = trim((string) ($tile['reel'] ?? '')))
+                @php($isVideoFile = $reel !== '' && \Illuminate\Support\Str::endsWith(strtolower($reel), ['.mp4', '.webm', '.ogg']))
+                <a class="social-tile" href="{{ $href ?: '#' }}" @if($href) target="_blank" rel="noopener" @endif>
+                    <span class="social-ico"><i class="fa {{ $tile['icon'] }}" aria-hidden="true"></i></span>
+                    <strong>{{ $tile['name'] }}</strong>
+                    <span>{{ $tile['sub'] }}</span>
+                    @if($reel !== '')
+                        <span class="social-media">
+                            @if($isVideoFile)
+                                <video autoplay muted loop playsinline preload="metadata"><source src="{{ $reel }}"></video>
+                            @else
+                                <iframe src="{{ $reel }}" title="{{ $tile['name'] }} reel" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                            @endif
+                        </span>
+                    @endif
+                </a>
+            @endforeach
         </div>
     </section>
 

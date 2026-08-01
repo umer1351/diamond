@@ -72,6 +72,15 @@
 
                                 <button class="btn btn-rounded btn-primary btn-block mt-2">{{ __('app.sign_in') }}</button>
                             </form>
+
+                            <div class="text-center my-3 text-muted" style="font-size:12px;letter-spacing:.08em">{{ __('app.or') ?? 'OR' }}</div>
+                            <a href="{{ route('google.redirect') }}"
+                               class="btn btn-rounded btn-block d-flex align-items-center justify-content-center"
+                               style="background:#fff;color:#3c4043;border:1px solid #dadce0;gap:10px;font-weight:600">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="18" height="18" onerror="this.style.display='none'">
+                                {{ __('app.continue_with_google') ?? 'Continue with Google' }}
+                            </a>
+
                             @if (Route::has('password.request'))
                                 <div class="mt-3 text-center">
 

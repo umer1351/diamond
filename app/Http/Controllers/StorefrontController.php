@@ -67,7 +67,7 @@ class StorefrontController extends Controller
 
     private function storefrontQuery()
     {
-        return FinishProduct::with(['product', 'warehouse', 'job_purchase_detail', 'images'])
+        return FinishProduct::with(['product', 'warehouse', 'job_purchase_detail', 'images', 'sizeStocks'])
             ->where('is_deleted', 0)
             ->where('is_active', 1);
     }
@@ -183,14 +183,30 @@ class StorefrontController extends Controller
                 ->count();
         $item->design_no = $item->job_purchase_detail->design_no ?? null;
 
-        // Available sizes (Bangles / Rings). The `sizes` column is a free-form
-        // comma / slash / pipe separated list e.g. "2.6, 2.8, 2.1" or "6,7,8".
-        $item->size_options = collect(preg_split('/[,;|]+/', (string) $item->sizes))
-            ->map(fn ($size) => trim((string) $size))
-            ->filter(fn ($size) => $size !== '' && strtoupper($size) !== 'N/A')
-            ->unique()
-            ->values()
-            ->all();
+        // Per-size stock (Bangles / Rings). When finish_product_sizes rows exist
+        // they are the source of truth: sizes list + per-size quantity + total.
+        $sizeStockMap = [];
+        if ($item->relationLoaded('sizeStocks') ? $item->sizeStocks->isNotEmpty() : $item->sizeStocks()->exists()) {
+            foreach ($item->sizeStocks as $row) {
+                $sizeStockMap[(string) $row->size] = (int) $row->quantity;
+            }
+        }
+        $item->size_stock = $sizeStockMap;
+
+        if ($sizeStockMap !== []) {
+            $item->size_options = array_keys($sizeStockMap);
+            // Keep the item's total in sync with the sum of its size stock.
+            $item->stock_quantity = array_sum($sizeStockMap);
+        } else {
+            // Fallback: the `sizes` column is a free-form comma / pipe list
+            // e.g. "2.6, 2.8, 2.1" or "6,7,8" with no per-size breakdown.
+            $item->size_options = collect(preg_split('/[,;|]+/', (string) $item->sizes))
+                ->map(fn ($size) => trim((string) $size))
+                ->filter(fn ($size) => $size !== '' && strtoupper($size) !== 'N/A')
+                ->unique()
+                ->values()
+                ->all();
+        }
 
         $categoryName = mb_strtolower(trim((string) ($item->product->name ?? '')));
         $item->sizes_enabled = in_array($categoryName, ['bangles', 'rings'], true);
@@ -253,7 +269,9 @@ class StorefrontController extends Controller
     {
         $items = $this->cartItems();
         $subTotal = (float) $items->sum('cart_total');
-        $shipping = $items->isEmpty() ? 0.0 : 35.0;
+        // Shipping is intentionally 0 for now — client will integrate real
+        // shipping rates later. Do not charge a flat fee by default.
+        $shipping = 0.0;
 
         return [
             'items' => $items,
@@ -269,13 +287,13 @@ class StorefrontController extends Controller
         return CmsSetting::firstOrCreate(
             ['id' => 1],
             [
-                'site_name' => 'Azure Luxury',
+                'site_name' => 'Azure Fashion',
                 'logo_text' => 'AZURE',
                 'footer_about' => 'Luxury jewellery and gift storefront powered by ERP data.',
-                'footer_email' => 'info@azureluxury.com',
-                'footer_phone' => '+97450903133',
+                'footer_email' => 'info@azure-fashion.com',
+                'footer_phone' => '+974 72 23 23 24',
                 'footer_address' => 'Qatar',
-                'copyright_text' => '2026 Azure Luxury - Qatar',
+                'copyright_text' => '2026 Azure Fashion - Qatar',
                 'is_active' => 1,
             ]
         );
@@ -475,10 +493,18 @@ class StorefrontController extends Controller
             return $category;
         })->filter(fn (Product $category) => $category->preview_products->isNotEmpty())->values();
 
+        $socialTiles = [
+            ['name' => 'Instagram', 'icon' => 'fa-instagram', 'url' => $cmsSetting->instagram_url ?? null, 'reel' => $cmsSetting->instagram_reel_url ?? null, 'sub' => 'Reels, posts & stories'],
+            ['name' => 'Facebook', 'icon' => 'fa-facebook', 'url' => $cmsSetting->facebook_url ?? null, 'reel' => $cmsSetting->facebook_reel_url ?? null, 'sub' => 'Latest updates'],
+            ['name' => 'TikTok', 'icon' => 'fa-play', 'url' => $cmsSetting->tiktok_url ?? null, 'reel' => $cmsSetting->tiktok_reel_url ?? null, 'sub' => 'Watch our videos'],
+            ['name' => 'Snapchat', 'icon' => 'fa-snapchat-ghost', 'url' => $cmsSetting->snapchat_url ?? null, 'reel' => $cmsSetting->snapchat_reel_url ?? null, 'sub' => 'Behind the scenes'],
+        ];
+
         return view('storefront.index', [
             'products' => $products,
             'categories' => $categories,
             'homeCategories' => $homeCategories,
+            'socialTiles' => $socialTiles,
             'categoryBg' => $this->resolvePublicImage($cmsSetting->category_bg_path ?? null),
             'searchTerm' => $term,
             'newArrivals' => $newArrivals,
@@ -597,12 +623,20 @@ class StorefrontController extends Controller
     public function addToCart(Request $request, int $id): RedirectResponse
     {
         $product = $this->storefrontQuery()->findOrFail($id);
+        $product = $this->enrichProduct($product);
+        $size = trim((string) $request->input('size', ''));
+
+        // Reject adding a size that is out of stock (per-size stock, if present).
+        $sizeStock = (array) ($product->size_stock ?? []);
+        if ($size !== '' && array_key_exists($size, $sizeStock) && (int) $sizeStock[$size] <= 0) {
+            return redirect()->back()->withErrors(['cart' => 'The selected size is out of stock.']);
+        }
+
         $cart = $this->getCartMap();
         $quantity = max(1, (int) $request->input('quantity', 1));
         $cart[$product->id] = ($cart[$product->id] ?? 0) + $quantity;
         Session::put('storefront_cart', $cart);
 
-        $size = trim((string) $request->input('size', ''));
         if ($size !== '') {
             $sizes = $this->getCartSizes();
             $sizes[$product->id] = $size;

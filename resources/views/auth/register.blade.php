@@ -88,6 +88,18 @@
                             </div>
                         </div>
                     </form>
+
+                    <div class="row mb-0">
+                        <div class="col-md-8 offset-md-4">
+                            <div class="text-center my-3 text-muted" style="font-size:12px;letter-spacing:.08em">{{ __('app.or') ?? 'OR' }}</div>
+                            <a href="{{ route('google.redirect') }}"
+                               class="btn d-inline-flex align-items-center justify-content-center"
+                               style="background:#fff;color:#3c4043;border:1px solid #dadce0;gap:10px;font-weight:600">
+                                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="18" height="18" onerror="this.style.display='none'">
+                                {{ __('app.continue_with_google') ?? 'Continue with Google' }}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

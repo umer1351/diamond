@@ -18,6 +18,16 @@
             <input class="form-control mb-2" name="snapchat_url" value="{{ old('snapchat_url', $setting->snapchat_url ?? '') }}" placeholder="Snapchat URL">
             <input class="form-control mb-2" name="youtube_url" value="{{ old('youtube_url', $setting->youtube_url ?? '') }}" placeholder="YouTube URL">
             <input class="form-control mb-2" name="twitter_url" value="{{ old('twitter_url', $setting->twitter_url ?? '') }}" placeholder="Twitter URL">
+
+            <hr>
+            <label class="d-block"><strong>Our Socials — reel / video for each tile</strong></label>
+            <small class="text-muted d-block mb-2">Optional. Paste a YouTube embed link (https://www.youtube.com/embed/ID) or a direct .mp4 URL. When set, the reel plays inside that social's tile so the section isn't static.</small>
+            <input class="form-control mb-2" name="instagram_reel_url" value="{{ old('instagram_reel_url', $setting->instagram_reel_url ?? '') }}" placeholder="Instagram reel/video URL">
+            <input class="form-control mb-2" name="facebook_reel_url" value="{{ old('facebook_reel_url', $setting->facebook_reel_url ?? '') }}" placeholder="Facebook reel/video URL">
+            <input class="form-control mb-2" name="tiktok_reel_url" value="{{ old('tiktok_reel_url', $setting->tiktok_reel_url ?? '') }}" placeholder="TikTok reel/video URL">
+            <input class="form-control mb-2" name="snapchat_reel_url" value="{{ old('snapchat_reel_url', $setting->snapchat_reel_url ?? '') }}" placeholder="Snapchat reel/video URL">
+
+            <hr>
             <input class="form-control mb-2" name="copyright_text" value="{{ old('copyright_text', $setting->copyright_text ?? '') }}" placeholder="Copyright Text">
 
             <hr>

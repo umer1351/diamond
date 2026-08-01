@@ -106,6 +106,10 @@ Route::get('language/{locale}', function (string $locale) {
 
 Auth::routes();
 
+// "Continue with Google" sign-in (self-contained; dormant until GOOGLE_* env set).
+Route::get('/auth/google/redirect', [App\Http\Controllers\Auth\GoogleController::class, 'redirect'])->name('google.redirect');
+Route::get('/auth/google/callback', [App\Http\Controllers\Auth\GoogleController::class, 'callback'])->name('google.callback');
+
 Route::group(['middleware' => ['auth', 'locale']], function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

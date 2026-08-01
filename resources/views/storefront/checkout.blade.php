@@ -74,10 +74,6 @@
                 <span>Subtotal</span>
                 <span>{{ number_format($sub_total, 0) }} QAR</span>
             </div>
-            <div class="summary-line">
-                <span>Shipping</span>
-                <span>{{ number_format($shipping, 0) }} QAR</span>
-            </div>
             <div class="summary-line total">
                 <span>Grand Total</span>
                 <span>{{ number_format($grand_total, 0) }} QAR</span>

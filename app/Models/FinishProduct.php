@@ -72,6 +72,12 @@ class FinishProduct extends Model
             ->orderBy('sort_order')
             ->orderBy('id');
     }
+
+    public function sizeStocks()
+    {
+        return $this->hasMany(FinishProductSize::class, 'finish_product_id')
+            ->orderBy('size');
+    }
     public function parent_name()
     {
         return $this->belongsTo(FinishProduct::class, 'parent_id');

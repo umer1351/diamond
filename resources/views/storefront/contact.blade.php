@@ -17,12 +17,9 @@
             </div>
             <p class="section-copy">{{ $cmsSetting->footer_about ?? 'Reach out to our team for orders, custom requests, or support.' }}</p>
             <div class="footer-links" style="margin-top:18px">
-                <div><span class="inline-icon">✉</span>{{ $cmsSetting->footer_email ?? 'info@azureluxury.com' }}</div>
-                <div><span class="inline-icon">☎</span>{{ $cmsSetting->footer_phone ?? '+97450903133' }}</div>
+                <div><span class="inline-icon">✉</span>{{ $cmsSetting->footer_email ?? 'info@azure-fashion.com' }}</div>
+                <div><span class="inline-icon">☎</span>{{ $cmsSetting->footer_phone ?? '+974 72 23 23 24' }}</div>
                 <div><span class="inline-icon">⌂</span>{{ $cmsSetting->footer_address ?? 'Qatar' }}</div>
-                @if(!empty($cmsSetting->contact_whatsapp))
-                    <div><span class="inline-icon">💬</span>{{ $cmsSetting->contact_whatsapp }}</div>
-                @endif
             </div>
         </div>
 
