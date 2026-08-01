@@ -14,6 +14,9 @@
         </div>
         <div class="separator-breadcrumb border-top"></div>
 
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
         @if(session('error'))
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
@@ -155,6 +158,47 @@
                                 <button class="btn btn-primary" type="submit">{{ $isEdit ? 'Update' : 'Save' }}</button>
                             </div>
                         </form>
+
+                        @if($isEdit)
+                            {{-- Multiple product images. The storefront shows the first two
+                                 (main + hover); add or replace the 2nd photo here. This is a
+                                 separate form because it posts to the image upload route. --}}
+                            <div class="card-body border-top">
+                                <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap">
+                                    <h5 class="font-weight-bold mb-0">Product Images</h5>
+                                    <small class="text-muted">Storefront shows the first two images (main photo + hover). Delete the auto-copied 2nd photo and upload a real one below.</small>
+                                </div>
+                                <div class="d-flex flex-wrap" style="gap:14px">
+                                    @forelse ($finish_product->images as $image)
+                                        <div class="border rounded p-2 text-center" style="width:160px;position:relative">
+                                            <img src="{{ asset($image->path) }}" alt="" style="width:100%;height:130px;object-fit:cover;border-radius:4px">
+                                            <div class="text-muted small mt-1">Image {{ $loop->iteration }}{{ $loop->first ? ' (main)' : '' }}</div>
+                                            <a href="{{ url('finish-product/images/' . $image->id . '/delete') }}"
+                                               class="btn btn-sm btn-danger btn-block mt-1"
+                                               onclick="return confirm('Delete this image? This cannot be undone.');">
+                                                <i class="i-Close"></i> Delete
+                                            </a>
+                                        </div>
+                                    @empty
+                                        <p class="text-muted">No images attached yet. Upload one or more below.</p>
+                                    @endforelse
+                                </div>
+                                <form action="{{ url('finish-product/images/' . $finish_product->id) }}" method="POST" enctype="multipart/form-data" class="mt-3">
+                                    @csrf
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <input type="file" name="images[]" class="form-control-file" accept="image/*" multiple required>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-primary">Add Image(s)</button>
+                                        </div>
+                                        <div class="col-12">
+                                            <small class="text-muted">You can select multiple images. JPEG, PNG, JPG, GIF or WEBP, up to 8 MB each.</small>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
