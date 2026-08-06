@@ -122,20 +122,27 @@ class StorefrontController extends Controller
         $path = trim((string) $path);
 
         if ($path !== '') {
+            // Trust the stored path (build the URL like the admin does)
+            // rather than gating on is_file(public_path()); on the live host
+            // the web-served folder is not the one public_path() resolves to,
+            // so that check wrongly pushed real pictures onto random fallbacks.
             $normalized = ltrim(str_replace('\\', '/', $path), '/');
-            $absolute = public_path($normalized);
 
-            if (is_file($absolute)) {
-                return asset($normalized);
-            }
+            return asset($normalized);
         }
 
         return $this->fallbackImage($seed, $fallback);
     }
 
     /**
-     * Resolve a product's real, on-disk image URLs (gallery first, then the
-     * legacy single `picture`). Never falls back to random placeholder images.
+     * Resolve a product's real image URLs (gallery first, then the legacy
+     * single `picture`). Builds the URL straight from the stored path — the
+     * same way the admin renders it via asset($image->path) — instead of
+     * gating on is_file(public_path()). On the live host the web-served
+     * `pictures/` directory is not the one public_path() resolves to, so the
+     * is_file() check returned false for every product and pushed the
+     * storefront onto random gallery fallbacks. Never falls back to random
+     * placeholder images here: an empty result lets enrichProduct decide.
      */
     private function productImageUrls(FinishProduct $item): array
     {
@@ -154,7 +161,7 @@ class StorefrontController extends Controller
         $urls = [];
         foreach ($paths as $path) {
             $normalized = ltrim(str_replace('\\', '/', trim((string) $path)), '/');
-            if ($normalized !== '' && is_file(public_path($normalized))) {
+            if ($normalized !== '') {
                 $urls[] = asset($normalized);
             }
         }
